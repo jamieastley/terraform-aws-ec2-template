@@ -1,5 +1,11 @@
-module "Apache" {
-  source = "./aws"
+terraform {
+  backend "s3" {
+    # required values provided via env vars
+  }
+}
+
+module "Apache_Demo" {
+  source = "../modules/aws"
 
   app_name     = var.app_name
   ssh_key_name = var.ssh_key_name
