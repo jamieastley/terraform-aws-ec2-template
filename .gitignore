@@ -5,3 +5,4 @@
 **.terraform**
 **.tfstate*
 tf_plan
+example/variables.tfvars.json
