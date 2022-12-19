@@ -9,13 +9,7 @@ resource "aws_instance" "app_server" {
   security_groups = [aws_security_group.sg.id]
   key_name        = var.ssh_key_name
 
-  user_data = <<-EOF
-  #!/bin/bash
-  echo "*** Installing apache2"
-  sudo apt update -y
-  sudo apt install apache2 -y
-  echo "*** Completed Installing apache2"
-  EOF
+  user_data = var.instance_user_data
 
   tags = {
     Name = var.app_name

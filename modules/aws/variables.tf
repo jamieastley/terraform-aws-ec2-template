@@ -62,3 +62,8 @@ variable "egress_rules" {
     ipv6_cidr_blocks = optional(list(string))
   }))
 }
+
+variable "instance_user_data" {
+  description = "User data which will be passed to the provisioned instance"
+  type = any
+}
