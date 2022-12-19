@@ -11,6 +11,10 @@ resource "aws_instance" "app_server" {
 
   user_data = var.instance_user_data
 
+  root_block_device {
+    volume_type = "gp3"
+  }
+
   tags = {
     Name = var.app_name
     Game = var.app_name
