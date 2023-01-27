@@ -18,7 +18,11 @@ module "Nginx_Demo" {
   aws_instance_type = var.aws_instance_type
   aws_region        = var.aws_region
 
-  instance_user_data = module.container-server.cloud_config
+  instance_user_data = templatefile("${path.module}/scripts/init-docker.tftpl", {
+    image = "nginxdemos/hello"
+    container_name = "nginx-demo"
+    command = "nginxdemos/hello"
+  })
 
   ingress_rules = [
     {
@@ -44,13 +48,6 @@ module "Nginx_Demo" {
       protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
     },
-    {
-      description = "traefik"
-      from_port   = 9000
-      to_port     = 9000
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
   ]
   egress_rules = [
     {
@@ -70,23 +67,4 @@ resource "aws_route53_record" "subdomain_record" {
   type    = "A"
   records = [module.Nginx_Demo.app_public_ip]
   ttl     = "180"
-}
-
-module "container-server" {
-  source  = "christippett/container-server/cloudinit"
-  version = "~> 1.2"
-
-  domain = "${var.subdomain_name}.${var.domain_name}"
-  email  = var.dns_email_address
-
-  letsencrypt_staging = var.enable_letsencrypt_staging
-
-  container = {
-    image = "nginxdemos/hello"
-  }
-
-  env = {
-    TRAEFIK_API_DASHBOARD = true
-    TRAEFIK_ENABLED       = true
-  }
 }
