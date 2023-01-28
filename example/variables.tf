@@ -76,3 +76,9 @@ variable "log_secure_values" {
   type = bool
   default = false
 }
+
+variable "enable_ssl_staging" {
+  description = "Enable SSL staging for Lets Encrypt"
+  type        = bool
+  default     = true
+}

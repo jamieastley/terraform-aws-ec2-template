@@ -13,6 +13,11 @@ module "Nginx_Demo" {
 
   app_name     = var.app_name
   ssh_key_name = var.ssh_key_name
+  dns_email_address = var.dns_email_address
+  domain_name = var.domain_name
+  subdomain_name = var.subdomain_name
+  enable_ssl_staging = var.enable_ssl_staging
+  zone_id = var.zone_id
 
   aws_ami           = var.aws_ami
   aws_instance_type = var.aws_instance_type

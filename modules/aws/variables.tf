@@ -67,3 +67,29 @@ variable "instance_user_data" {
   description = "User data which will be passed to the provisioned instance"
   type = any
 }
+
+variable "enable_ssl_staging" {
+  description = "Enable SSL staging for Lets Encrypt"
+  type        = bool
+  default     = true
+}
+
+variable "dns_email_address" {
+  description = "Email address to use for SSL certificate"
+  type        = string
+}
+
+variable "domain_name" {
+  description = "Domain name to use for SSL certificate"
+  type        = string
+}
+
+variable "subdomain_name" {
+    description = "Subdomain name to use for SSL certificate"
+    type        = string
+}
+
+variable "zone_id" {
+  description = "The Zone ID which the created subdomain should point to"
+  type = string
+}
