@@ -2,6 +2,14 @@ provider "acme" {
   server_url = var.enable_ssl_staging ? "https://acme-staging-v02.api.letsencrypt.org/directory" : "https://acme-v02.api.letsencrypt.org/directory"
 }
 
+resource "aws_route53_record" "subdomain_record" {
+  zone_id = var.zone_id
+  name    = var.subdomain_name
+  type    = "A"
+  records = [aws_instance.app_server.public_ip]
+  ttl     = "180"
+}
+
 resource "tls_private_key" "private_key" {
   algorithm = "RSA"
 }
@@ -24,4 +32,10 @@ resource "acme_certificate" "certificate" {
   }
 
   depends_on = [acme_registration.registration]
+}
+
+resource "aws_acm_certificate" "certificate" {
+  certificate_body  = acme_certificate.certificate.certificate_pem
+  private_key       = acme_certificate.certificate.private_key_pem
+  certificate_chain = acme_certificate.certificate.issuer_pem
 }

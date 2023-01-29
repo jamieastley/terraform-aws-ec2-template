@@ -94,7 +94,7 @@ variable "zone_id" {
   type = string
 }
 
-variable "s3_bucket_name" {
-  description = "The name of the S3 bucket to use for game data"
+variable "s3_bucket_id" {
+  description = "The ID of the S3 bucket to use for game data"
   type = string
 }

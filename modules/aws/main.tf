@@ -9,6 +9,8 @@ resource "aws_instance" "app_server" {
   security_groups = [aws_security_group.sg.id]
   key_name        = var.ssh_key_name
 
+  iam_instance_profile = aws_iam_instance_profile.bucket_instance_profile.id
+
   user_data = var.instance_user_data
 
   root_block_device {

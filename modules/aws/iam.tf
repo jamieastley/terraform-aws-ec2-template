@@ -1,3 +1,8 @@
+locals {
+  ec2_role_name = "${var.app_name}-ec2-role"
+  ec2_policy_name = "${var.app_name}-ec2-policy"
+}
+
 resource "aws_iam_role" "ec2_role" {
   name = "${var.app_name}-ec2-role"
   assume_role_policy = jsonencode({
@@ -15,7 +20,8 @@ resource "aws_iam_role" "ec2_role" {
   })
 }
 
-resource "aws_iam_instance_profile" "valheim" {
+resource "aws_iam_instance_profile" "bucket_instance_profile" {
+  name = "${var.app_name}-bucket-instance-profile"
   role = aws_iam_role.ec2_role.name
 }
 
@@ -33,8 +39,8 @@ resource "aws_iam_policy" "ec2_policy" {
           "s3:List*"
         ],
         Resource : [
-          "arn:aws:s3:::${data.aws_s3_bucket.bucket.id}",
-          "arn:aws:s3:::${data.aws_s3_bucket.bucket.id}/"
+          "arn:aws:s3:::${var.s3_bucket_id}",
+          "arn:aws:s3:::${var.s3_bucket_id}/"
         ]
       },
       {
@@ -46,7 +52,7 @@ resource "aws_iam_policy" "ec2_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "valheim" {
+resource "aws_iam_role_policy_attachment" "policy_attach" {
   role       = aws_iam_role.ec2_role.name
   policy_arn = aws_iam_policy.ec2_policy.arn
 }
