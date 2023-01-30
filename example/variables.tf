@@ -2,6 +2,7 @@ variable "aws_instance_type" {
   description = "The EC2 instance type which will be provisioned"
   type        = string
   nullable    = false
+  default     = "t3a.medium"
 }
 
 variable "aws_region" {
@@ -16,11 +17,6 @@ variable "aws_ami" {
   nullable    = false
 }
 
-#variable "vpc_name" {
-#  description = "The name of the VPC"
-#  type = string
-#}
-
 variable "vpc_cidr" {
   description = "CIDR block for VPC"
   type        = string
@@ -29,7 +25,7 @@ variable "vpc_cidr" {
 
 variable "zone_id" {
   description = "The Zone ID which the created subdomain should point to"
-  type = string
+  type        = string
 }
 
 variable "vpc_enable_nat_gateway" {
@@ -47,38 +43,87 @@ variable "app_name" {
 variable "ssh_key_name" {
   description = "The name of the SSH key that will be used to access the provisioned instance"
   type        = string
+  sensitive   = true
 }
 
 variable "dns_email_address" {
   description = "The email address which will be used for requesting certificates from LetsEncrypt"
-  type = string
+  type        = string
+  sensitive   = true
 }
 
 variable "enable_letsencrypt_staging" {
   description = "Sets whether the LetsEncrypt staging server should be used."
-  type = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 variable "domain_name" {
   description = "The domain name to create the subdomain against"
-  type = string
+  type        = string
 }
 
 variable "subdomain_name" {
   description = "The subdomain on which the example will be deployed to"
-  type = string
-  default = "hello"
+  type        = string
+  default     = "example"
 }
 
 variable "log_secure_values" {
   description = "Enables or disables the output of secure values"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "enable_ssl_staging" {
   description = "Enable SSL staging for Lets Encrypt"
   type        = bool
   default     = true
+}
+
+
+variable "ec2_username" {
+  description = "The user of the EC2 instance"
+  type        = string
+  sensitive   = true
+}
+
+# S3
+
+variable "s3_bucket_name" {
+  description = "The name of the S3 bucket to use for game data backups"
+  type        = string
+}
+
+variable "valheim_world_name" {
+  description = "The name of the Valheim world to use"
+  type        = string
+}
+
+variable "valheim_server_password" {
+  description = "The password for the Valheim server"
+  type        = string
+  sensitive   = true
+}
+
+variable "valheim_server_timezone" {
+  description = "The timezone for the Valheim server"
+  type        = string
+  default     = "Australia/Sydney"
+}
+
+variable "valheim_hugin_webhook_url" {
+  description = "The webhook URL for Hugin"
+  type        = string
+  sensitive   = true
+}
+
+variable "valheim_server_type" {
+  description = "The type of Valheim server to create. "
+  type        = string
+  default     = "ValheimPlus"
+  validation {
+    condition     = contains(["ValheimPlus", "BepInEx", "BepInExFull", "Vanilla"], var.valheim_server_type)
+    error_message = "The valheim_server_type variable must be either ValheimPlus, BepInEx, BepInExFull, or Vanilla."
+  }
 }
