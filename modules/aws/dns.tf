@@ -7,7 +7,7 @@ data "aws_route53_zone" "hosted_zone" {
 }
 
 resource "aws_route53_record" "subdomain_record" {
-  zone_id = var.zone_id
+  zone_id = data.aws_route53_zone.hosted_zone.zone_id
   name    = "${var.subdomain_name}.${var.hosted_zone_name}"
   type    = "A"
   records = [aws_eip.eip.public_ip]

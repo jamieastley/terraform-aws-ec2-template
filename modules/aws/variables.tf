@@ -89,11 +89,6 @@ variable "subdomain_name" {
   type        = string
 }
 
-variable "zone_id" {
-  description = "The Zone ID which the created subdomain should point to"
-  type        = string
-}
-
 variable "s3_bucket_id" {
   description = "The ID of the S3 bucket to use for game data"
   type        = string
