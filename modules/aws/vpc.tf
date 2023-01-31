@@ -25,6 +25,10 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = true
   availability_zone       = data.aws_availability_zones.available_zones.names[0]
 
+  depends_on = [
+    aws_internet_gateway.igw
+  ]
+
   tags = {
     Name = "${var.app_name} Public Subnet"
     Game = var.app_name

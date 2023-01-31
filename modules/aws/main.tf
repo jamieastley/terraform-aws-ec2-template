@@ -22,3 +22,8 @@ resource "aws_instance" "app_server" {
     Game = var.app_name
   }
 }
+
+output "aws_ami" {
+  description = "The AMI ID of the created EC2 instance"
+  value       = aws_instance.app_server.ami
+}

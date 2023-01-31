@@ -65,7 +65,7 @@ variable "egress_rules" {
 
 variable "instance_user_data" {
   description = "User data which will be passed to the provisioned instance"
-  type = any
+  type        = any
 }
 
 variable "enable_ssl_staging" {
@@ -79,22 +79,22 @@ variable "dns_email_address" {
   type        = string
 }
 
-variable "domain_name" {
-  description = "Domain name to use for SSL certificate"
+variable "hosted_zone_name" {
+  description = "The name of your (existing) hosted zone in AWS (eg. example.com)"
   type        = string
 }
 
 variable "subdomain_name" {
-    description = "Subdomain name to use for SSL certificate"
-    type        = string
+  description = "The subdomain name which will be used to create the new Route53 record"
+  type        = string
 }
 
 variable "zone_id" {
   description = "The Zone ID which the created subdomain should point to"
-  type = string
+  type        = string
 }
 
 variable "s3_bucket_id" {
   description = "The ID of the S3 bucket to use for game data"
-  type = string
+  type        = string
 }
