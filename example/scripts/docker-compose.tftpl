@@ -2,7 +2,7 @@ version: "3"
 name: "Valheim"
 services:
   server:
-    image: mbround18/valheim:latest
+    image: ${image}
     stop_signal: SIGINT
     restart: always
     ports:

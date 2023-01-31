@@ -16,19 +16,18 @@ module "Nginx_Demo" {
   app_name           = var.app_name
   ssh_key_name       = var.ssh_key_name
   dns_email_address  = var.dns_email_address
-  domain_name        = var.domain_name
+  hosted_zone_name   = var.hosted_zone_name
   subdomain_name     = var.subdomain_name
   enable_ssl_staging = var.enable_ssl_staging
-  zone_id            = var.zone_id
   aws_ami            = var.aws_ami
   aws_instance_type  = var.aws_instance_type
   aws_region         = var.aws_region
   s3_bucket_id       = aws_s3_object.docker_compose.bucket
 
   instance_user_data = templatefile("${path.module}/scripts/init-docker.tftpl", {
-    bucket         = var.s3_bucket_name
-    username       = var.ec2_username
-    base_key_path  = local.s3_base_key_path
+    bucket        = var.s3_bucket_name
+    username      = var.ec2_username
+    base_key_path = local.s3_base_key_path
   })
 
   ingress_rules = [

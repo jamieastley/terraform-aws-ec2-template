@@ -23,11 +23,6 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "zone_id" {
-  description = "The Zone ID which the created subdomain should point to"
-  type        = string
-}
-
 variable "vpc_enable_nat_gateway" {
   description = "Enable NAT gateway for VPC"
   type        = bool
@@ -58,8 +53,8 @@ variable "enable_letsencrypt_staging" {
   default     = true
 }
 
-variable "domain_name" {
-  description = "The domain name to create the subdomain against"
+variable "hosted_zone_name" {
+  description = "The name of the existing hosted zone which the subdomain will be created in"
   type        = string
 }
 
@@ -89,6 +84,12 @@ variable "ec2_username" {
 }
 
 # S3
+
+variable "docker_image" {
+  description = "The Docker image to use for the Valheim server"
+  type        = string
+  default     = "mbround18/valheim:latest"
+}
 
 variable "s3_bucket_name" {
   description = "The name of the S3 bucket to use for game data backups"
