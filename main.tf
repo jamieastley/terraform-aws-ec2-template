@@ -9,16 +9,15 @@ resource "aws_instance" "app_server" {
   security_groups = [aws_security_group.sg.id]
   key_name        = var.ssh_key_name
 
-  user_data = <<-EOF
-  #!/bin/bash
-  echo "*** Installing apache2"
-  sudo apt update -y
-  sudo apt install apache2 -y
-  echo "*** Completed Installing apache2"
-  EOF
+  iam_instance_profile = aws_iam_instance_profile.bucket_instance_profile.id
 
-  tags = {
-    Name = var.app_name
-    Game = var.app_name
+  user_data = var.instance_user_data
+
+  root_block_device {
+    volume_type = "gp3"
   }
+
+  tags = local.tags
 }
+
+
