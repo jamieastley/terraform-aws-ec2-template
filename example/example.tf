@@ -1,9 +1,13 @@
 terraform {
-  #  Uncomment in your implementation
-  #
-  #  backend "s3" {
-  #    # required values provided via env vars
-  #  }
+#  cloud {
+
+    # Organisation set via `TF_CLOUD_ORGANIZATION` env var
+
+#    workspaces {
+#      tags = ["dev"]
+#      # set via ` TF_WORKSPACE` env var
+#    }
+#  }
 }
 
 data "http" "dev_outbound_ip" {
@@ -11,18 +15,21 @@ data "http" "dev_outbound_ip" {
 }
 
 module "Nginx_Demo" {
-  source = "../modules/aws"
+  source = "../"
 
-  app_name           = var.app_name
-  ssh_key_name       = var.ssh_key_name
-  dns_email_address  = var.dns_email_address
+  app_name          = var.app_name
+  ssh_key_name      = var.ssh_key_name
+  aws_ami           = var.aws_ami
+  aws_instance_type = var.aws_instance_type
+  aws_region        = var.aws_region
+  s3_bucket_id      = aws_s3_object.docker_compose.bucket
+
+  #  Route53
+  hosted_zone_id     = data.aws_route53_zone.hosted_zone.id
   hosted_zone_name   = var.hosted_zone_name
   subdomain_name     = var.subdomain_name
   enable_ssl_staging = var.enable_ssl_staging
-  aws_ami            = var.aws_ami
-  aws_instance_type  = var.aws_instance_type
-  aws_region         = var.aws_region
-  s3_bucket_id       = aws_s3_object.docker_compose.bucket
+  dns_email_address  = var.dns_email_address
 
   instance_user_data = templatefile("${path.module}/scripts/init-docker.tftpl", {
     bucket        = var.s3_bucket_name

@@ -1,3 +1,17 @@
+# Terraform
+variable "terraform_org" {
+  description = "The name of the Terraform Cloud organization"
+  type        = string
+  sensitive   = true
+}
+
+variable "terraform_workspace" {
+  description = "The name of the Terraform Cloud workspace"
+  type        = string
+  sensitive   = true
+}
+
+# EC2
 variable "aws_instance_type" {
   description = "The EC2 instance type which will be provisioned"
   type        = string
@@ -76,7 +90,6 @@ variable "enable_ssl_staging" {
   default     = true
 }
 
-
 variable "ec2_username" {
   description = "The user of the EC2 instance"
   type        = string
@@ -84,7 +97,6 @@ variable "ec2_username" {
 }
 
 # S3
-
 variable "docker_image" {
   description = "The Docker image to use for the Valheim server"
   type        = string
