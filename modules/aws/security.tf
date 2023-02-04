@@ -28,8 +28,5 @@ resource "aws_security_group" "sg" {
     }
   }
 
-  tags = {
-    Name = "${var.app_name} Security Group"
-    Game = var.app_name
-  }
+  tags = local.tags
 }

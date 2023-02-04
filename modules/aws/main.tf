@@ -17,13 +17,7 @@ resource "aws_instance" "app_server" {
     volume_type = "gp3"
   }
 
-  tags = {
-    Name = var.app_name
-    Game = var.app_name
-  }
+  tags = local.tags
 }
 
-output "aws_ami" {
-  description = "The AMI ID of the created EC2 instance"
-  value       = aws_instance.app_server.ami
-}
+

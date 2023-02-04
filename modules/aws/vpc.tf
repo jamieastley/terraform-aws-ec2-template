@@ -4,19 +4,13 @@ data "aws_availability_zones" "available_zones" {}
 resource "aws_vpc" "vpc" {
   cidr_block = var.vpc_cidr
 
-  tags = {
-    Name = "${var.app_name} VPC"
-    Game = var.app_name
-  }
+  tags = local.tags
 }
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
 
-  tags = {
-    Name = "${var.app_name} VPC IGW"
-    Game = var.app_name
-  }
+  tags = local.tags
 }
 
 resource "aws_subnet" "public_subnet" {
@@ -29,24 +23,18 @@ resource "aws_subnet" "public_subnet" {
     aws_internet_gateway.igw
   ]
 
-  tags = {
-    Name = "${var.app_name} Public Subnet"
-    Game = var.app_name
-  }
+  tags = local.tags
 }
 
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.vpc.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = var.route_table_cidr_block
     gateway_id = aws_internet_gateway.igw.id
   }
 
-  tags = {
-    Name = "${var.app_name} Public Route Table"
-    Game = var.app_name
-  }
+  tags = local.tags
 }
 
 resource "aws_route_table_association" "public_rt_asso" {
