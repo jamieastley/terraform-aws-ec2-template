@@ -1,6 +1,6 @@
 locals {
   tags = {
-    App = var.app_name
+    App         = var.app_name
     Environment = var.environment
   }
 
@@ -14,10 +14,26 @@ variable "aws_region" {
   nullable    = false
 }
 
+variable "aws_access_key" {
+  description = "The AWS access key to use for provisioning"
+  type        = string
+  nullable    = false
+}
+
+variable "aws_secret_key" {
+  description = "The AWS secret key to use for provisioning"
+  type        = string
+  nullable    = false
+}
+
 variable "environment" {
   description = "The environment in which the EC2 instance will be provisioned. Value will also be applied as tag to each resource."
   type        = string
   default     = "dev"
+  validation {
+    condition     = contains(["dev", "production"], var.environment)
+    error_message = "The environment of the Valheim server. Must be either `dev` or `production`"
+  }
 }
 
 # S3
