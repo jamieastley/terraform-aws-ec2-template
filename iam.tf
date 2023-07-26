@@ -38,8 +38,8 @@ resource "aws_iam_policy" "ec2_policy" {
           "s3:List*"
         ],
         Resource : [
-          "arn:aws:s3:::${var.s3_bucket_id}",
-          "arn:aws:s3:::${var.s3_bucket_id}/"
+          "arn:aws:s3:::${var.s3_bucket_id}/${var.s3_folder_path}",
+          "arn:aws:s3:::${var.s3_bucket_id}/${var.s3_folder_path}/*"
         ]
       },
       {

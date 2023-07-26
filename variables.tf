@@ -1,6 +1,6 @@
 locals {
   tags = {
-    App         = var.app_name
+    Name        = var.app_name
     Environment = var.environment
   }
 
@@ -39,6 +39,11 @@ variable "environment" {
 # S3
 variable "s3_bucket_id" {
   description = "The ID of the S3 bucket to use for game data"
+  type        = string
+}
+
+variable "s3_folder_path" {
+  description = "The path inside the bucket to use for game data"
   type        = string
 }
 
