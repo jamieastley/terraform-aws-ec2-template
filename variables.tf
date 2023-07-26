@@ -1,10 +1,12 @@
 locals {
+  resource_prefix = "${var.app_name}-${var.environment}"
+}
+
+locals {
   tags = {
-    Name        = var.app_name
+    Name        = local.resource_prefix
     Environment = var.environment
   }
-
-  resource_prefix = "${var.app_name}-${var.environment}"
 }
 
 # AWS Account

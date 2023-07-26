@@ -35,6 +35,7 @@ resource "aws_iam_policy" "ec2_policy" {
         Action : [
           "s3:Put*",
           "s3:Get*",
+          "s3:DeleteObject",
           "s3:List*"
         ],
         Resource : [

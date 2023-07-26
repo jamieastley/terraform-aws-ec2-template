@@ -1,6 +1,6 @@
 resource "aws_eip" "eip" {
   instance = aws_instance.app_server.id
-  vpc      = true
+  domain   = "vpc"
 
   tags = local.tags
 }
