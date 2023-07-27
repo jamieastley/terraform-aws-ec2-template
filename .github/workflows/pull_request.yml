@@ -78,3 +78,5 @@ jobs:
             }
 
       - uses: dangoslen/changelog-enforcer@v3
+        with:
+          skipLabels: dependencies
