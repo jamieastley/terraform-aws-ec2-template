@@ -1,10 +1,12 @@
 locals {
+  resource_prefix = "${var.app_name}-${var.environment}"
+}
+
+locals {
   tags = {
-    App = var.app_name
+    Name        = local.resource_prefix
     Environment = var.environment
   }
-
-  resource_prefix = "${var.app_name}-${var.environment}"
 }
 
 # AWS Account
@@ -14,15 +16,36 @@ variable "aws_region" {
   nullable    = false
 }
 
+variable "aws_access_key" {
+  description = "The AWS access key to use for provisioning"
+  type        = string
+  nullable    = false
+}
+
+variable "aws_secret_key" {
+  description = "The AWS secret key to use for provisioning"
+  type        = string
+  nullable    = false
+}
+
 variable "environment" {
   description = "The environment in which the EC2 instance will be provisioned. Value will also be applied as tag to each resource."
   type        = string
   default     = "dev"
+  validation {
+    condition     = contains(["dev", "production"], var.environment)
+    error_message = "The environment of the Valheim server. Must be either `dev` or `production`"
+  }
 }
 
 # S3
 variable "s3_bucket_id" {
   description = "The ID of the S3 bucket to use for game data"
+  type        = string
+}
+
+variable "s3_folder_path" {
+  description = "The path inside the bucket to use for game data"
   type        = string
 }
 
@@ -76,7 +99,7 @@ variable "vpc_enable_nat_gateway" {
 
 variable "ingress_rules" {
   description = "A list of ingress rules to apply to the provisioned instance"
-  type        = list(object({
+  type = list(object({
     description      = string
     from_port        = number
     to_port          = number
@@ -88,7 +111,7 @@ variable "ingress_rules" {
 
 variable "egress_rules" {
   description = "A list of egress rules to apply to the provisioned instance"
-  type        = list(object({
+  type = list(object({
     description      = string
     from_port        = number
     to_port          = number

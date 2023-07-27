@@ -25,7 +25,7 @@ resource "aws_iam_instance_profile" "bucket_instance_profile" {
 }
 
 resource "aws_iam_policy" "ec2_policy" {
-  name = "${local.resource_prefix}-ec2-policy"
+  name        = "${local.resource_prefix}-ec2-policy"
   description = "Allows the EC2 instance to interact with various AWS services"
   policy = jsonencode({
     Version : "2012-10-17",
@@ -35,11 +35,12 @@ resource "aws_iam_policy" "ec2_policy" {
         Action : [
           "s3:Put*",
           "s3:Get*",
+          "s3:DeleteObject",
           "s3:List*"
         ],
         Resource : [
-          "arn:aws:s3:::${var.s3_bucket_id}",
-          "arn:aws:s3:::${var.s3_bucket_id}/"
+          "arn:aws:s3:::${var.s3_bucket_id}/${var.s3_folder_path}",
+          "arn:aws:s3:::${var.s3_bucket_id}/${var.s3_folder_path}/*"
         ]
       },
       {

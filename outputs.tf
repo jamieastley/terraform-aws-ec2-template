@@ -5,5 +5,5 @@ output "aws_ami" {
 
 output "elastic_ip" {
   description = "The Elastic IP assigned to the created EC2 instance"
-  value = aws_eip.eip.public_ip
+  value       = aws_eip.eip.public_ip
 }
