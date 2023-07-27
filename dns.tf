@@ -20,8 +20,8 @@ resource "acme_registration" "registration" {
 }
 
 resource "acme_certificate" "certificate" {
-  account_key_pem = acme_registration.registration.account_key_pem
-  common_name = var.hosted_zone_name
+  account_key_pem           = acme_registration.registration.account_key_pem
+  common_name               = var.hosted_zone_name
   subject_alternative_names = ["${var.subdomain_name}.${var.hosted_zone_name}"]
 
   dns_challenge {

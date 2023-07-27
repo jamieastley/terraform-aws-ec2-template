@@ -99,7 +99,7 @@ variable "vpc_enable_nat_gateway" {
 
 variable "ingress_rules" {
   description = "A list of ingress rules to apply to the provisioned instance"
-  type        = list(object({
+  type = list(object({
     description      = string
     from_port        = number
     to_port          = number
@@ -111,7 +111,7 @@ variable "ingress_rules" {
 
 variable "egress_rules" {
   description = "A list of egress rules to apply to the provisioned instance"
-  type        = list(object({
+  type = list(object({
     description      = string
     from_port        = number
     to_port          = number

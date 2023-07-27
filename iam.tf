@@ -25,7 +25,7 @@ resource "aws_iam_instance_profile" "bucket_instance_profile" {
 }
 
 resource "aws_iam_policy" "ec2_policy" {
-  name = "${local.resource_prefix}-ec2-policy"
+  name        = "${local.resource_prefix}-ec2-policy"
   description = "Allows the EC2 instance to interact with various AWS services"
   policy = jsonencode({
     Version : "2012-10-17",
