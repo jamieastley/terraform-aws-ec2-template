@@ -7,6 +7,8 @@ version: 2
 updates:
   - package-ecosystem: "terraform"
     directory: "/"
+    assignees:
+      - jamieastley
     schedule:
       interval: "daily"
       time: "19:00"
