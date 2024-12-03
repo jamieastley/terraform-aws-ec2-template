@@ -9,25 +9,6 @@ locals {
   }
 }
 
-# AWS Account
-variable "aws_region" {
-  description = "The region in which the EC2 instance will be provisioned"
-  type        = string
-  nullable    = false
-}
-
-variable "aws_access_key" {
-  description = "The AWS access key to use for provisioning"
-  type        = string
-  nullable    = false
-}
-
-variable "aws_secret_key" {
-  description = "The AWS secret key to use for provisioning"
-  type        = string
-  nullable    = false
-}
-
 variable "environment" {
   description = "The environment in which the EC2 instance will be provisioned. Value will also be applied as tag to each resource."
   type        = string
@@ -41,11 +22,6 @@ variable "environment" {
 # S3
 variable "s3_bucket_id" {
   description = "The ID of the S3 bucket to use for game data"
-  type        = string
-}
-
-variable "s3_folder_path" {
-  description = "The path inside the bucket to use for game data"
   type        = string
 }
 
@@ -91,12 +67,6 @@ variable "route_table_cidr_block" {
   default     = "0.0.0.0/0"
 }
 
-variable "vpc_enable_nat_gateway" {
-  description = "Enable NAT gateway for VPC"
-  type        = bool
-  default     = true
-}
-
 variable "ingress_rules" {
   description = "A list of ingress rules to apply to the provisioned instance"
   type = list(object({
@@ -121,28 +91,3 @@ variable "egress_rules" {
   }))
 }
 
-variable "enable_ssl_staging" {
-  description = "Enable SSL staging for Lets Encrypt"
-  type        = bool
-  default     = true
-}
-
-variable "dns_email_address" {
-  description = "Email address to use for SSL certificate"
-  type        = string
-}
-
-variable "hosted_zone_name" {
-  description = "The name of your (existing) hosted zone in AWS (eg. example.com)"
-  type        = string
-}
-
-variable "hosted_zone_id" {
-  description = "The ID of your hosted zone in AWS"
-  type        = string
-}
-
-variable "subdomain_name" {
-  description = "The subdomain name which will be used to create the new Route53 record"
-  type        = string
-}
