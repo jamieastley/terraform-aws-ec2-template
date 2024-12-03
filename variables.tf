@@ -13,10 +13,6 @@ variable "environment" {
   description = "The environment in which the EC2 instance will be provisioned. Value will also be applied as tag to each resource."
   type        = string
   default     = "dev"
-  validation {
-    condition     = contains(["dev", "production"], var.environment)
-    error_message = "The environment of the Valheim server. Must be either `dev` or `production`"
-  }
 }
 
 # S3
@@ -52,6 +48,11 @@ variable "ssh_key_name" {
 variable "instance_user_data" {
   description = "User data which will be passed to the provisioned instance"
   type        = any
+}
+
+variable "s3_arn_allow_list" {
+  description = "A list of resource ARNs which are added to the EC2 allow policy"
+  type        = list(string)
 }
 
 # VPC
