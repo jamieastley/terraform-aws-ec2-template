@@ -13,5 +13,16 @@ updates:
       - jamieastley
     schedule:
       interval: "daily"
-      time: "19:00"
+      time: "12:00"
+      timezone: "Australia/Sydney"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    reviewers:
+      - jamieastley
+    assignees:
+      - jamieastley
+    schedule:
+      interval: "daily"
+      time: "12:00"
       timezone: "Australia/Sydney"
