@@ -1,9 +1,3 @@
-provider "aws" {
-  region     = var.aws_region
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
-}
-
 resource "aws_instance" "app_server" {
   ami             = var.aws_ami
   instance_type   = var.aws_instance_type
