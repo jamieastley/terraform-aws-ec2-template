@@ -14,4 +14,5 @@ resource "cloudflare_record" "dns_record" {
   type    = "A"
   proxied = var.proxied
   zone_id = var.zone_id
+  value   = var.value
 }
