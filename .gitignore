@@ -7,3 +7,7 @@
 **.terraform**
 **.tfstate*
 tf_plan
+
+# 1Password
+.op
+aws.env
