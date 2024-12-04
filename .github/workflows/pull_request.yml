@@ -34,10 +34,10 @@ jobs:
           MODULE_INIT: ${{ needs.validate_main_module.outputs.initOutcome }}
           MODULE_VALIDATE: ${{ needs.validate_main_module.outputs.validateOutcome }}
           MODULE_VALIDATE_OUTPUT: ${{ needs.validate_main_module.outputs.validateOutput }}
-          DNS_FMT: ${{ needs.validate_oidc_provider.outputs.fmtOutcome }}
-          DNS_INIT: ${{ needs.validate_oidc_provider.outputs.initOutcome }}
-          DNS_VALIDATE: ${{ needs.validate_oidc_provider.outputs.validateOutcome }}
-          DNS_VALIDATE_OUTPUT: ${{ needs.validate_oidc_provider.outputs.validateOutput }}
+          DNS_FMT: ${{ needs.validate_cloudflare_dns.outputs.fmtOutcome }}
+          DNS_INIT: ${{ needs.validate_cloudflare_dns.outputs.initOutcome }}
+          DNS_VALIDATE: ${{ needs.validate_cloudflare_dns.outputs.validateOutcome }}
+          DNS_VALIDATE_OUTPUT: ${{ needs.validate_cloudflare_dns.outputs.validateOutput }}
 
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
