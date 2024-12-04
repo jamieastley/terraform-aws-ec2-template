@@ -1,3 +1,14 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.79.0"
+    }
+  }
+
+  required_version = ">= 1.10.0"
+}
+
 resource "aws_instance" "app_server" {
   ami             = var.aws_ami
   instance_type   = var.aws_instance_type
@@ -15,5 +26,3 @@ resource "aws_instance" "app_server" {
 
   tags = local.tags
 }
-
-
