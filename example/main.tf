@@ -4,6 +4,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.78.0"
     }
+
+    cloudflare = {
+      source = "cloudflare/cloudflare"
+      version = "~> 4.47.0"
+    }
   }
 }
 
@@ -93,4 +98,12 @@ module "module_example" {
       ipv6_cidr_blocks = ["::/0"]
     }
   ]
+}
+
+resource cloudflare_record "record" {
+  zone_id = var.cloudflare_zone_id
+  name = "example"
+  type = "A"
+  proxied = true
+  value = module.module_example.elastic_ip
 }
