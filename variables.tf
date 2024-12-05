@@ -14,6 +14,12 @@ variable "app_name" {
   nullable    = false
 }
 
+variable "app_description" {
+  description = "The description of the app service that's being deployed"
+  type        = string
+  nullable    = false
+}
+
 # EC2
 variable "aws_instance_type" {
   description = "The EC2 instance type which will be provisioned"

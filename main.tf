@@ -9,6 +9,17 @@ terraform {
   required_version = ">= 1.10.0"
 }
 
+provider "aws" {
+  default_tags {
+    tags = merge(local.tags, aws_servicecatalogappregistry_application.app_dashboard.application_tag)
+  }
+}
+
+# Required so as to avoid circular dependency when creating aws_servicecatalogappregistry_application
+provider "aws" {
+  alias = "application"
+}
+
 resource "aws_instance" "app_server" {
   ami             = var.aws_ami
   instance_type   = var.aws_instance_type
