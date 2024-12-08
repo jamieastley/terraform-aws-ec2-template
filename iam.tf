@@ -13,20 +13,16 @@ resource "aws_iam_role" "ec2_role" {
       }
     ]
   })
-
-  tags = local.tags
 }
 
 resource "aws_iam_instance_profile" "bucket_instance_profile" {
   name = "${local.resource_prefix}-bucket-instance-profile"
   role = aws_iam_role.ec2_role.name
-
-  tags = local.tags
 }
 
 resource "aws_iam_policy" "ec2_policy" {
-  name        = "${local.resource_prefix}-ec2-policy"
-  description = "Allows the EC2 instance to interact with various AWS services"
+  name        = "${local.resource_prefix}-ec2-s3-policy"
+  description = "Allows the EC2 instance to interact with the given S3 resources"
   policy = jsonencode({
     Version : "2012-10-17",
     Statement : [
@@ -47,8 +43,6 @@ resource "aws_iam_policy" "ec2_policy" {
       }
     ]
   })
-
-  tags = local.tags
 }
 
 resource "aws_iam_role_policy_attachment" "policy_attach" {

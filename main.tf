@@ -23,6 +23,4 @@ resource "aws_instance" "app_server" {
   root_block_device {
     volume_type = "gp3"
   }
-
-  tags = local.tags
 }
