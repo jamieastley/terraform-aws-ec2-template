@@ -2,23 +2,10 @@ locals {
   resource_prefix = "${var.app_name}-${var.environment}"
 }
 
-locals {
-  tags = {
-    Name        = local.resource_prefix
-    Environment = var.environment
-  }
-}
-
 variable "environment" {
   description = "The environment in which the EC2 instance will be provisioned. Value will also be applied as tag to each resource."
   type        = string
   default     = "dev"
-}
-
-# S3
-variable "s3_bucket_id" {
-  description = "The ID of the S3 bucket to use for game data"
-  type        = string
 }
 
 variable "app_name" {
