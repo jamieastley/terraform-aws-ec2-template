@@ -3,14 +3,10 @@ data "aws_availability_zones" "available_zones" {}
 
 resource "aws_vpc" "vpc" {
   cidr_block = var.vpc_cidr
-
-  tags = local.tags
 }
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
-
-  tags = local.tags
 }
 
 resource "aws_subnet" "public_subnet" {
@@ -22,8 +18,6 @@ resource "aws_subnet" "public_subnet" {
   depends_on = [
     aws_internet_gateway.igw
   ]
-
-  tags = local.tags
 }
 
 resource "aws_route_table" "public_rt" {
@@ -33,8 +27,6 @@ resource "aws_route_table" "public_rt" {
     cidr_block = var.route_table_cidr_block
     gateway_id = aws_internet_gateway.igw.id
   }
-
-  tags = local.tags
 }
 
 resource "aws_route_table_association" "public_rt_asso" {

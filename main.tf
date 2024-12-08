@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.80.0"
+      version = "~> 5.80"
     }
   }
 
@@ -23,6 +23,4 @@ resource "aws_instance" "app_server" {
   root_block_device {
     volume_type = "gp3"
   }
-
-  tags = local.tags
 }

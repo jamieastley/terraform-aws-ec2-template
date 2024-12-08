@@ -27,6 +27,4 @@ resource "aws_security_group" "sg" {
       ipv6_cidr_blocks = egress.value.ipv6_cidr_blocks
     }
   }
-
-  tags = local.tags
 }
