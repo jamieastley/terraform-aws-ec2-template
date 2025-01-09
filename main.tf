@@ -2,11 +2,25 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.80"
+      version = ">= 5.80"
     }
   }
 
   required_version = ">= 1.10.0"
+}
+
+provider "aws" {
+  default_tags {
+    tags = merge(local.tags, aws_servicecatalogappregistry_application.app_dashboard.application_tag)
+  }
+}
+
+# Required so as to avoid circular dependency when creating aws_servicecatalogappregistry_application
+provider "aws" {
+  alias = "application"
+  default_tags {
+    tags = local.tags
+  }
 }
 
 resource "aws_instance" "app_server" {

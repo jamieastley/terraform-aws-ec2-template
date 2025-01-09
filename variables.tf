@@ -2,6 +2,13 @@ locals {
   resource_prefix = "${var.app_name}-${var.environment}"
 }
 
+locals {
+  tags = {
+    Name        = local.resource_prefix
+    Environment = var.environment
+  }
+}
+
 variable "environment" {
   description = "The environment in which the EC2 instance will be provisioned. Value will also be applied as tag to each resource."
   type        = string
@@ -10,6 +17,12 @@ variable "environment" {
 
 variable "app_name" {
   description = "The name of the app service that's being deployed. Name will be concatenated into resource names"
+  type        = string
+  nullable    = false
+}
+
+variable "app_description" {
+  description = "The description of the app service that's being deployed"
   type        = string
   nullable    = false
 }

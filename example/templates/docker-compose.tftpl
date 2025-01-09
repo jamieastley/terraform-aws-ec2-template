@@ -1,0 +1,11 @@
+version: "3"
+# MUST be lowercase
+name: "example"
+services:
+  server:
+    image: ${image}
+    stop_signal: SIGINT
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
