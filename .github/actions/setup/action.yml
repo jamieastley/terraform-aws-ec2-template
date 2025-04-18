@@ -45,3 +45,11 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       run: terraform validate -no-color
       shell: bash
+
+    - run: |
+        echo "fmtOutcome: ${{ steps.fmt.outcome }}"
+        echo "initOutcome: ${{ steps.init.outcome }}"
+        echo "validateOutcome: ${{ steps.validate.outcome }}"
+        echo "validateOutput: ${{ steps.validate.outputs.stdout }}"
+      name: Output debug
+      shell: bash
