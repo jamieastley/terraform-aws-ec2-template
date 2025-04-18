@@ -28,7 +28,7 @@ runs:
       with:
         auto-install: true
 
-    - name: Terraform Format
+    - name: Terraform Format check
       id: fmt
       working-directory: ${{ inputs.working-directory }}
       run: terraform fmt -check
