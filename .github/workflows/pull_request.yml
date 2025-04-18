@@ -9,6 +9,11 @@ jobs:
   validate_main_module:
     runs-on: ubuntu-latest
     name: "Validate module"
+    outputs:
+      fmtOutcome: ${{ steps.setup.outputs.fmtOutcome }}
+      initOutcome: ${{ steps.setup.outputs.initOutcome }}
+      validateOutcome: ${{ steps.setup.outputs.validateOutcome }}
+      validateOutput: ${{ steps.setup.outputs.validateOutput }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
@@ -25,6 +30,11 @@ jobs:
   validate_example_module:
     runs-on: ubuntu-latest
     name: "Validate example module"
+    outputs:
+      fmtOutcome: ${{ steps.setup.outputs.fmtOutcome }}
+      initOutcome: ${{ steps.setup.outputs.initOutcome }}
+      validateOutcome: ${{ steps.setup.outputs.validateOutcome }}
+      validateOutput: ${{ steps.setup.outputs.validateOutput }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
