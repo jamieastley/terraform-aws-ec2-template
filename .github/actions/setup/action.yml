@@ -4,7 +4,7 @@ name: "Setup and validate environment"
 inputs:
   working-directory:
     description: 'The directory that steps should be executed in'
-    default: '/'
+    default: './'
 
 outputs:
   fmtOutcome:
