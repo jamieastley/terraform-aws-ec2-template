@@ -13,6 +13,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         id: setup
+      - run: |
+          echo "fmtOutcome: ${{ steps.setup.fmtOutcome }}"
+          echo "initOutcome: ${{ steps.setup.initOutcome }}"
+          echo "validateOutcome: ${{ steps.setup.validateOutcome }}"
+          echo "validateOutput: ${{ steps.setup.validateOutput }}"
+        name: Output debug
+        shell: bash
 
   validate_example_module:
     runs-on: ubuntu-latest
