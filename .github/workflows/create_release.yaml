@@ -7,22 +7,25 @@ on:
 
 jobs:
   validate_main_module:
-    uses: jamieastley/terraform_gh_actions/.github/workflows/validate_terraform_module.yml@v1.0.0
+    runs-on: ubuntu-latest
     name: "Validate module"
-    with:
-      terraform_version: ${{ vars.TERRAFORM_VERSION }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
 
-  validate_cloudflare_dns:
-    uses: jamieastley/terraform_gh_actions/.github/workflows/validate_terraform_module.yml@v1.0.0
-    name: "Validate CloudFlare DNS module"
-    with:
-      terraform_version: latest
-      working-directory: modules/cloudflare-dns
+  validate_example_module:
+    runs-on: ubuntu-latest
+    name: "Validate example module"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          working-directory: 'example'
 
   create_release:
     name: "Create GitHub release"
     runs-on: ubuntu-latest
-    needs: [ validate_main_module, validate_cloudflare_dns ]
+    needs: [ validate_main_module, validate_example_module ]
     permissions:
       contents: write
     steps:
