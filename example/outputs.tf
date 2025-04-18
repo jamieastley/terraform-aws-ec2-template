@@ -11,7 +11,3 @@ output "icanhazip" {
   description = "Local IP address"
   value       = length(data.http.dev_outbound_ip) != 0 ? data.http.dev_outbound_ip[0].response_body : "not used"
 }
-
-output "record" {
-  value = cloudflare_record.record.hostname
-}

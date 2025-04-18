@@ -16,6 +16,17 @@ updates:
       time: "12:00"
       timezone: "Australia/Sydney"
 
+  - package-ecosystem: "terraform"
+    directory: "/example"
+    reviewers:
+      - jamieastley
+    assignees:
+      - jamieastley
+    schedule:
+      interval: "daily"
+      time: "12:00"
+      timezone: "Australia/Sydney"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     reviewers:

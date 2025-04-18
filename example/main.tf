@@ -2,7 +2,7 @@ terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = ">= 4.47"
+      version = ">= 5.3"
     }
   }
 }
@@ -96,10 +96,12 @@ module "module_example" {
   ]
 }
 
-resource "cloudflare_record" "record" {
+resource "cloudflare_dns_record" "record" {
   zone_id = var.cloudflare_zone_id
   name    = local.app_name
   type    = "A"
   proxied = true
-  value   = module.module_example.elastic_ip
+  content = module.module_example.elastic_ip
+  # TTL must be 1 when proxied
+  ttl = 1
 }
