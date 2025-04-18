@@ -15,13 +15,12 @@ jobs:
 
   validate_example_module:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: test
     name: "Validate example module"
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
+        with:
+          working-directory: 'example'
 
   output_terraform_results:
     name: "Output Terraform results"

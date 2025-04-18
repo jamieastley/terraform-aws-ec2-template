@@ -1,6 +1,11 @@
 # https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action
 name: "Setup and validate environment"
 
+inputs:
+  working-directory:
+    description: 'The directory that steps should be executed in'
+    default: '/'
+
 outputs:
   fmtOutcome:
     description: 'Outcome of terraform fmt -check'
@@ -25,15 +30,18 @@ runs:
 
     - name: Terraform Format
       id: fmt
+      working-directory: ${{ inputs.working-directory }}
       run: terraform fmt -check
       shell: bash
 
     - name: Terraform Init
       id: init
+      working-directory: ${{ inputs.working-directory }}
       run: terraform init
       shell: bash
 
     - name: Terraform Validate
       id: validate
+      working-directory: ${{ inputs.working-directory }}
       run: terraform validate -no-color
       shell: bash
