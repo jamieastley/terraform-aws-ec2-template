@@ -9,13 +9,13 @@ inputs:
 outputs:
   fmtOutcome:
     description: 'Outcome of terraform fmt -check'
-    value: ${{ steps.fmt.outcome }}
+    value: ${{ steps.fmt.outputs.outcome }}
   initOutcome:
     description: 'Outcome of terraform init'
-    value: ${{ steps.init.outcome }}
+    value: ${{ steps.init.outputs.outcome }}
   validateOutcome:
     description: 'Outcome of terraform validate'
-    value: ${{ steps.validate.outcome }}
+    value: ${{ steps.validate.outputs.outcome }}
   validateOutput:
     description: 'stdout of terraform validate'
     value: ${{ steps.validate.outputs.stdout }}
