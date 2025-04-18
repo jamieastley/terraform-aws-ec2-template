@@ -7,22 +7,26 @@ on:
 
 jobs:
   validate_main_module:
-    uses: jamieastley/terraform_gh_actions/.github/workflows/validate_terraform_module.yml@v1.0.0
+    runs-on: ubuntu-latest
     name: "Validate module"
-    with:
-      terraform_version: ${{ vars.TERRAFORM_VERSION }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
 
-  validate_cloudflare_dns:
-    uses: jamieastley/terraform_gh_actions/.github/workflows/validate_terraform_module.yml@v1.0.0
-    name: "Validate CloudFlare DNS module"
-    with:
-      terraform_version: latest
-      working-directory: modules/cloudflare-dns
+  validate_example_module:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: example
+    name: "Validate example module"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
 
   output_terraform_results:
     name: "Output Terraform results"
     runs-on: ubuntu-latest
-    needs: [ validate_main_module, validate_cloudflare_dns ]
+    needs: [ validate_main_module, validate_example_module ]
     permissions:
       pull-requests: write
       issues: write
@@ -34,10 +38,10 @@ jobs:
           MODULE_INIT: ${{ needs.validate_main_module.outputs.initOutcome }}
           MODULE_VALIDATE: ${{ needs.validate_main_module.outputs.validateOutcome }}
           MODULE_VALIDATE_OUTPUT: ${{ needs.validate_main_module.outputs.validateOutput }}
-          DNS_FMT: ${{ needs.validate_cloudflare_dns.outputs.fmtOutcome }}
-          DNS_INIT: ${{ needs.validate_cloudflare_dns.outputs.initOutcome }}
-          DNS_VALIDATE: ${{ needs.validate_cloudflare_dns.outputs.validateOutcome }}
-          DNS_VALIDATE_OUTPUT: ${{ needs.validate_cloudflare_dns.outputs.validateOutput }}
+          EXAMPLE_FMT: ${{ needs.validate_example_module.outputs.fmtOutcome }}
+          EXAMPLE_INIT: ${{ needs.validate_example_module.outputs.initOutcome }}
+          EXAMPLE_VALIDATE: ${{ needs.validate_example_module.outputs.validateOutcome }}
+          EXAMPLE_VALIDATE_OUTPUT: ${{ needs.validate_example_module.outputs.validateOutput }}
 
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -68,14 +72,14 @@ jobs:
 
             </details>
 
-            ### Submodule - CloudFlare DNS
-            #### Terraform fmt 🖌\`${{ env.DNS_FMT }}\`
-            #### Terraform init ⚙️\`${{ env.DNS_INIT }}\`
-            #### Terraform validate 🤖\`${{ env.DNS_VALIDATE }}\`
+            ### Example 
+            #### Terraform fmt 🖌\`${{ env.EXAMPLE_FMT }}\`
+            #### Terraform init ⚙️\`${{ env.EXAMPLE_INIT }}\`
+            #### Terraform validate 🤖\`${{ env.EXAMPLE_VALIDATE }}\`
             <details><summary>Validation Output</summary>
 
             \`\`\`\n
-            ${{ env.DNS_VALIDATE_OUTPUT }}
+            ${{ env.EXAMPLE_VALIDATE_OUTPUT }}
             \`\`\`
 
             </details>
