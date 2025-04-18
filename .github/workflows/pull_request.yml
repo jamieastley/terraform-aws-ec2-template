@@ -19,14 +19,6 @@ jobs:
       - uses: ./.github/actions/setup
         id: setup
 
-      - run: |
-          echo "fmtOutcome: ${{ steps.setup.outputs.fmtOutcome }}"
-          echo "initOutcome: ${{ steps.setup.outputs.initOutcome }}"
-          echo "validateOutcome: ${{ steps.setup.outputs.validateOutcome }}"
-          echo "validateOutput: ${{ steps.setup.outputs.validateOutput }}"
-        name: Output debug
-        shell: bash
-
   validate_example_module:
     runs-on: ubuntu-latest
     name: "Validate example module"
@@ -41,13 +33,7 @@ jobs:
         id: setup
         with:
           working-directory: 'example'
-      - run: |
-          echo "fmtOutcome: ${{ steps.setup.outputs.fmtOutcome }}"
-          echo "initOutcome: ${{ steps.setup.outputs.initOutcome }}"
-          echo "validateOutcome: ${{ steps.setup.outputs.validateOutcome }}"
-          echo "validateOutput: ${{ steps.setup.outputs.validateOutput }}"
-        name: Output debug
-        shell: bash
+
 
   output_terraform_results:
     name: "Output Terraform results"
@@ -110,7 +96,7 @@ jobs:
 
             </details>
 
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`\/example\`, Workflow: \`${{ github.workflow }}\`*`;
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
             // 3. If we have a comment, update it, otherwise create a new one
             if (botComment) {
