@@ -28,7 +28,7 @@ resource "aws_instance" "app_server" {
   instance_type   = var.aws_instance_type
   subnet_id       = aws_subnet.public_subnet.id
   security_groups = [aws_security_group.sg.id]
-  key_name        = var.ssh_key_name
+  key_name        = aws_key_pair.ec2_key_pair.key_name
 
   iam_instance_profile = aws_iam_instance_profile.bucket_instance_profile.id
 
@@ -37,4 +37,9 @@ resource "aws_instance" "app_server" {
   root_block_device {
     volume_type = "gp3"
   }
+}
+
+resource "aws_key_pair" "ec2_key_pair" {
+  key_name   = "${local.resource_prefix}-tf-key"
+  public_key = var.ec2_public_key
 }
