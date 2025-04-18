@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
+        id: setup
 
   validate_example_module:
     runs-on: ubuntu-latest
@@ -19,6 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
+        id: setup
         with:
           working-directory: 'example'
 
@@ -33,14 +35,14 @@ jobs:
       - uses: actions/github-script@v7
         if: github.event_name == 'pull_request'
         env:
-          MODULE_FMT: ${{ needs.validate_main_module.outputs.fmtOutcome }}
-          MODULE_INIT: ${{ needs.validate_main_module.outputs.initOutcome }}
-          MODULE_VALIDATE: ${{ needs.validate_main_module.outputs.validateOutcome }}
-          MODULE_VALIDATE_OUTPUT: ${{ needs.validate_main_module.outputs.validateOutput }}
-          EXAMPLE_FMT: ${{ needs.validate_example_module.outputs.fmtOutcome }}
-          EXAMPLE_INIT: ${{ needs.validate_example_module.outputs.initOutcome }}
-          EXAMPLE_VALIDATE: ${{ needs.validate_example_module.outputs.validateOutcome }}
-          EXAMPLE_VALIDATE_OUTPUT: ${{ needs.validate_example_module.outputs.validateOutput }}
+          MODULE_FMT: ${{ needs.validate_main_module.setup.outputs.fmtOutcome }}
+          MODULE_INIT: ${{ needs.validate_main_module.setup.outputs.initOutcome }}
+          MODULE_VALIDATE: ${{ needs.validate_main_module.setup.outputs.validateOutcome }}
+          MODULE_VALIDATE_OUTPUT: ${{ needs.validate_main_module.setup.outputs.validateOutput }}
+          EXAMPLE_FMT: ${{ needs.validate_example_module.setup.outputs.fmtOutcome }}
+          EXAMPLE_INIT: ${{ needs.validate_example_module.setup.outputs.initOutcome }}
+          EXAMPLE_VALIDATE: ${{ needs.validate_example_module.setup.outputs.validateOutcome }}
+          EXAMPLE_VALIDATE_OUTPUT: ${{ needs.validate_example_module.setup.outputs.validateOutput }}
 
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -83,7 +85,7 @@ jobs:
 
             </details>
 
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`\/example\`, Workflow: \`${{ github.workflow }}\`*`;
 
             // 3. If we have a comment, update it, otherwise create a new one
             if (botComment) {
