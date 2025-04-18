@@ -31,6 +31,13 @@ jobs:
         id: setup
         with:
           working-directory: 'example'
+      - run: |
+          echo "fmtOutcome: ${{ steps.setup.fmtOutcome }}"
+          echo "initOutcome: ${{ steps.setup.initOutcome }}"
+          echo "validateOutcome: ${{ steps.setup.validateOutcome }}"
+          echo "validateOutput: ${{ steps.setup.validateOutput }}"
+        name: Output debug
+        shell: bash
 
   output_terraform_results:
     name: "Output Terraform results"
