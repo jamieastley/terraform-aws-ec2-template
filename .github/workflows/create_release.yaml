@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     name: "Validate module"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup
 
   validate_example_module:
     runs-on: ubuntu-latest
     name: "Validate example module"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/setup
         with:
           working-directory: 'example'
