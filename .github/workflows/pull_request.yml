@@ -43,7 +43,7 @@ jobs:
       pull-requests: write
       issues: write
     steps:
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@v8
         if: github.event_name == 'pull_request'
         env:
           MODULE_FMT: ${{ needs.validate_main_module.outputs.fmtOutcome }}
