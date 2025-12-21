@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.96"
+      version = ">= 6.27"
     }
   }
 
@@ -20,12 +20,13 @@ resource "aws_iam_policy" "tf_policy" {
   policy      = data.aws_iam_policy_document.policy.json
 }
 
-module "iam_github_oidc_role" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-github-oidc-role"
+module "iam_role" {
+  source = "terraform-aws-modules/iam/aws//modules/iam-role"
 
-  version  = "~> 5.55"
-  subjects = var.oidc_subjects
-  name     = "${local.resource_prefix}-oidc-role"
+  version                = ">= 6.2.3"
+  oidc_wildcard_subjects = var.oidc_subjects
+  enable_github_oidc     = true
+  name                   = "${local.resource_prefix}-oidc-role"
   policies = {
     tf_policy = aws_iam_policy.tf_policy.arn
   }

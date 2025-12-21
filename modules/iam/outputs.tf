@@ -9,7 +9,7 @@ output "policy_arn" {
 }
 
 output "oidc_role_arn" {
-  value       = module.iam_github_oidc_role.arn
+  value       = module.iam_role.arn
   description = "The ARN of the IAM role which was created"
 }
 
