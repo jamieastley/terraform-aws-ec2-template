@@ -34,7 +34,12 @@ variable "aws_account_id" {
 }
 
 variable "s3_bucket_name" {
-  description = "The name of the S3 bucket to be created"
+  description = "The name of the bucket which will be added to the policy"
   type        = string
   sensitive   = true
+}
+
+variable "oidc_subjects" {
+  description = "The subjects for the OIDC provider"
+  type        = list(string)
 }
