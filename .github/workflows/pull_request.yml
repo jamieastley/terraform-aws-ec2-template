@@ -6,111 +6,18 @@ on:
       - master
 
 jobs:
-  validate_main_module:
+  validate_modules:
     runs-on: ubuntu-latest
-    name: "Validate module"
-    outputs:
-      fmtOutcome: ${{ steps.setup.outputs.fmtOutcome }}
-      initOutcome: ${{ steps.setup.outputs.initOutcome }}
-      validateOutcome: ${{ steps.setup.outputs.validateOutcome }}
-      validateOutput: ${{ steps.setup.outputs.validateOutput }}
-    steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/setup
-        id: setup
-
-  validate_example_module:
-    runs-on: ubuntu-latest
-    name: "Validate example module"
-    outputs:
-      fmtOutcome: ${{ steps.setup.outputs.fmtOutcome }}
-      initOutcome: ${{ steps.setup.outputs.initOutcome }}
-      validateOutcome: ${{ steps.setup.outputs.validateOutcome }}
-      validateOutput: ${{ steps.setup.outputs.validateOutput }}
+    strategy:
+      matrix:
+        module:
+          - ./
+          - examples/iam
+          - examples/server
+    name: "Validate ${{ matrix.module }} module"
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
         id: setup
         with:
-          working-directory: 'example'
-
-
-  output_terraform_results:
-    name: "Output Terraform results"
-    runs-on: ubuntu-latest
-    needs: [ validate_main_module, validate_example_module ]
-    permissions:
-      pull-requests: write
-      issues: write
-    steps:
-      - uses: actions/github-script@v8
-        if: github.event_name == 'pull_request'
-        env:
-          MODULE_FMT: ${{ needs.validate_main_module.outputs.fmtOutcome }}
-          MODULE_INIT: ${{ needs.validate_main_module.outputs.initOutcome }}
-          MODULE_VALIDATE: ${{ needs.validate_main_module.outputs.validateOutcome }}
-          MODULE_VALIDATE_OUTPUT: ${{ needs.validate_main_module.outputs.validateOutput }}
-          EXAMPLE_FMT: ${{ needs.validate_example_module.outputs.fmtOutcome }}
-          EXAMPLE_INIT: ${{ needs.validate_example_module.outputs.initOutcome }}
-          EXAMPLE_VALIDATE: ${{ needs.validate_example_module.outputs.validateOutcome }}
-          EXAMPLE_VALIDATE_OUTPUT: ${{ needs.validate_example_module.outputs.validateOutput }}
-
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            // 1. Retrieve existing bot comments for the PR
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            })
-            const title = 'Terraform Results'
-            const botComment = comments.find(comment => {
-              return comment.user.type === 'Bot' && comment.body.includes(title)
-            })
-
-            // 2. Prepare format of the comment
-            const output = `## ${title}
-
-            ### Module
-            #### Terraform fmt 🖌\`${{ env.MODULE_FMT }}\`
-            #### Terraform init ⚙️\`${{ env.MODULE_INIT }}\`
-            #### Terraform validate 🤖\`${{ env.MODULE_VALIDATE }}\`
-            <details><summary>Validation Output</summary>
-
-            \`\`\`\n
-            ${{ env.MODULE_VALIDATE_OUTPUT }}
-            \`\`\`
-
-            </details>
-
-            ### Example 
-            #### Terraform fmt 🖌\`${{ env.EXAMPLE_FMT }}\`
-            #### Terraform init ⚙️\`${{ env.EXAMPLE_INIT }}\`
-            #### Terraform validate 🤖\`${{ env.EXAMPLE_VALIDATE }}\`
-            <details><summary>Validation Output</summary>
-
-            \`\`\`\n
-            ${{ env.EXAMPLE_VALIDATE_OUTPUT }}
-            \`\`\`
-
-            </details>
-
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
-
-            // 3. If we have a comment, update it, otherwise create a new one
-            if (botComment) {
-              github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: output
-              })
-            } else {
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: output
-              })
-            }
+          working-directory: '${{ matrix.module }}'
