@@ -39,7 +39,7 @@ resource "aws_s3_object" "docker_compose" {
 }
 
 module "module_example" {
-  source            = "../"
+  source            = "../../"
   app_name          = local.app_name
   app_description   = "Example app to demo the module with"
   aws_ami           = "ami-0e040c48614ad1327"
