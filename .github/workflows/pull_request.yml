@@ -1,7 +1,10 @@
-name: "Pull Request"
+name: "Validate Terraform modules"
 
 on:
   pull_request:
+    branches:
+      - master
+  push:
     branches:
       - master
 
@@ -12,8 +15,11 @@ jobs:
       matrix:
         module:
           - ./
+          - modules/iam
+          - modules/storage
           - examples/iam
           - examples/server
+          - examples/storage
     name: "Validate ${{ matrix.module }} module"
     steps:
       - uses: actions/checkout@v6
