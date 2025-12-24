@@ -1,0 +1,37 @@
+# Example backend configuration for CloudFlare R2
+# 
+# To use this configuration:
+# 1. Copy this file to backend.tf
+# 2. Update the values below with your CloudFlare R2 details
+# 3. Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to your CloudFlare R2 credentials
+# 4. Run: terraform init
+#
+# Note: The AWS provider in this module is configured to use a separate authentication
+# method (AWS profile or OIDC) to avoid conflicts with R2 credentials.
+
+terraform {
+  backend "s3" {
+    # CloudFlare R2 bucket name
+    bucket = "your-r2-bucket-name"
+    
+    # State file key/path within the bucket
+    key = "terraform.tfstate"
+    
+    # CloudFlare R2 endpoint for your account
+    # Format: https://<account-id>.r2.cloudflarestorage.com
+    endpoint = "https://your-account-id.r2.cloudflarestorage.com"
+    
+    # Region (required but not used by R2, can be any value)
+    region = "auto"
+    
+    # Skip AWS-specific validations
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    skip_region_validation      = true
+    skip_requesting_account_id  = true
+    skip_s3_checksum            = true
+    
+    # Use path-style URLs (required for R2)
+    use_path_style = true
+  }
+}

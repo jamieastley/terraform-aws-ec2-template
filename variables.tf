@@ -93,3 +93,16 @@ variable "egress_rules" {
   }))
 }
 
+# AWS Provider Configuration
+variable "aws_profile" {
+  description = "AWS CLI profile name to use for authentication. If not set, will use default credential chain (recommended for OIDC in CI/CD)"
+  type        = string
+  default     = null
+}
+
+variable "aws_region" {
+  description = "AWS region for provider configuration"
+  type        = string
+  default     = "us-east-1"
+}
+

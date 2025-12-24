@@ -10,6 +10,9 @@ terraform {
 }
 
 provider "aws" {
+  region  = var.aws_region
+  profile = var.aws_profile
+
   default_tags {
     tags = merge(local.tags, aws_servicecatalogappregistry_application.app_dashboard.application_tag)
   }
@@ -17,7 +20,10 @@ provider "aws" {
 
 # Required so as to avoid circular dependency when creating aws_servicecatalogappregistry_application
 provider "aws" {
-  alias = "application"
+  alias   = "application"
+  region  = var.aws_region
+  profile = var.aws_profile
+
   default_tags {
     tags = local.tags
   }
