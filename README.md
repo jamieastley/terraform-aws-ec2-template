@@ -8,7 +8,11 @@ See the `example` directory for a working demo of the module.
 
 ## CloudFlare R2 Backend Support
 
-This module supports using CloudFlare R2 as a Terraform backend. See [R2_BACKEND.md](./R2_BACKEND.md) for detailed instructions on how to configure:
+This module supports using CloudFlare R2 as a Terraform backend. 
+
+**Quick Start:** See [QUICKSTART_R2.md](./QUICKSTART_R2.md) for a step-by-step guide.
+
+**Detailed Documentation:** See [R2_BACKEND.md](./R2_BACKEND.md) for comprehensive instructions on how to configure:
 - CloudFlare R2 as the Terraform state backend
 - Separate AWS credentials for local development (using AWS profiles)
 - AWS OIDC authentication for GitHub Actions/CI-CD

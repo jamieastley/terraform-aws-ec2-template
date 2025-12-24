@@ -1,5 +1,9 @@
 # Example backend configuration for CloudFlare R2
 # 
+# For detailed setup instructions, see:
+# - Quick Start: QUICKSTART_R2.md
+# - Comprehensive Guide: R2_BACKEND.md
+#
 # To use this configuration:
 # 1. Copy this file to backend.tf
 # 2. Update the values below with your CloudFlare R2 details
