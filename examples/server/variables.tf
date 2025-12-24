@@ -15,3 +15,15 @@ variable "ec2_public_key" {
   nullable    = false
   sensitive   = true
 }
+
+variable "aws_profile" {
+  description = "AWS CLI profile name to use for authentication. Set this for local development. Leave null for CI/CD with OIDC."
+  type        = string
+  default     = null
+}
+
+variable "aws_region" {
+  description = "AWS region for provider configuration"
+  type        = string
+  default     = "us-east-1"
+}

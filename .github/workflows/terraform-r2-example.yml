@@ -1,0 +1,66 @@
+name: Terraform Deploy with R2 Backend
+
+# This is an example workflow demonstrating how to use CloudFlare R2 as backend
+# with AWS OIDC authentication for resource provisioning
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  id-token: write   # Required for OIDC authentication with AWS
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      # Configure AWS credentials via OIDC
+      # This provides AWS authentication WITHOUT using environment variables
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}  # e.g., arn:aws:iam::123456789012:role/GitHubActionsRole
+          aws-region: us-east-1
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.0"
+      
+      # Initialize Terraform backend with R2 credentials
+      # R2 credentials are provided via environment variables
+      - name: Terraform Init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: terraform init
+      
+      # Validate and format check
+      # These commands use AWS OIDC credentials (not R2 credentials)
+      - name: Terraform Format Check
+        run: terraform fmt -check
+      
+      - name: Terraform Validate
+        run: terraform validate
+      
+      # Plan stage uses AWS OIDC credentials
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+      
+      # Apply only on main branch
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve tfplan
+
+# Required GitHub Secrets:
+# - R2_ACCESS_KEY_ID: CloudFlare R2 access key ID
+# - R2_SECRET_ACCESS_KEY: CloudFlare R2 secret access key
+# - AWS_ROLE_ARN: AWS IAM role ARN for OIDC authentication
+#
+# Note: Do NOT set aws_profile variable when using OIDC

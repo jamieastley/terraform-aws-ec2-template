@@ -45,6 +45,13 @@ module "module_example" {
   aws_ami           = "ami-0e040c48614ad1327"
   aws_instance_type = "t2.micro"
   ec2_public_key    = var.ec2_public_key
+
+  # AWS provider configuration
+  # For local development: use AWS profile (e.g., "default" or "myproject")
+  # For GitHub Actions/CI-CD: leave as null to use OIDC authentication
+  aws_profile = var.aws_profile
+  aws_region  = var.aws_region
+
   instance_user_data = templatefile(local.init_ec2_template_path, {
     bucket                     = aws_s3_bucket.example_bucket.bucket
     docker_compose_s3_key_path = local.docker_compose_s3_key_path
